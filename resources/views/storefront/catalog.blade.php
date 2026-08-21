@@ -25,6 +25,14 @@
         <!-- Smart Filters Sidebar (Offcanvas on mobile) -->
         <div class="col-lg-3">
             <div class="offcanvas-lg offcanvas-start bg-dark border-end border-secondary border-opacity-25" tabindex="-1" id="filterOffcanvas" aria-labelledby="filterOffcanvasLabel">
+                <style>
+                    @media (min-width: 992px) {
+                        #filterOffcanvas {
+                            background-color: transparent !important;
+                            border: none !important;
+                        }
+                    }
+                </style>
                 <div class="offcanvas-header border-bottom border-secondary border-opacity-25 d-lg-none">
                     <h5 class="offcanvas-title text-white fw-bold" id="filterOffcanvasLabel"><i class="fa-solid fa-filter text-gold me-2"></i> Filters</h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" data-bs-target="#filterOffcanvas" aria-label="Close"></button>
