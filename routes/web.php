@@ -9,10 +9,30 @@ use App\Http\Controllers\Admin\PlantController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\OrderController;
 
+use App\Http\Controllers\Storefront\PlantStoreController;
+use App\Http\Controllers\Storefront\CartController;
+use App\Http\Controllers\Storefront\CheckoutController;
+
+use App\Http\Controllers\Storefront\CatalogController;
+
 // -------------------------------------------------------------
-// 🌿 Public Storefront Route
+// 🌿 Public Storefront Routes
 // -------------------------------------------------------------
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/shop', [CatalogController::class, 'index'])->name('shop');
+Route::get('/plants/{slug}', [PlantStoreController::class, 'show'])->name('plant.show');
+Route::get('/api/search', [CatalogController::class, 'apiSearch'])->name('api.search');
+
+// Cart API Routes
+Route::get('/cart', [CartController::class, 'getCart'])->name('cart.get');
+Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
+Route::post('/cart/update', [CartController::class, 'update'])->name('cart.update');
+Route::post('/cart/remove', [CartController::class, 'remove'])->name('cart.remove');
+
+// Checkout Routes
+Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
+Route::post('/checkout', [CheckoutController::class, 'process'])->name('checkout.process');
+
 
 // -------------------------------------------------------------
 // 🔐 Authentication Routes (Guest Only)

@@ -7,7 +7,23 @@
     <button class="navbar-toggler border-0 text-white shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
       <i class="fa-solid fa-bars fs-3"></i>
     </button>
-    <div class="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
+    <div class="collapse navbar-collapse justify-content-between" id="navbarNavDropdown">
+      <!-- Live Search Bar -->
+      <div class="mx-lg-auto my-3 my-lg-0 position-relative" style="max-width: 400px; width: 100%;">
+          <form action="{{ route('shop') }}" method="GET" class="d-flex w-100">
+              <div class="input-group">
+                  <span class="input-group-text bg-dark border-secondary border-opacity-50 text-muted rounded-start-pill ps-3">
+                      <i class="fa-solid fa-magnifying-glass"></i>
+                  </span>
+                  <input type="text" name="q" id="live-search-input" class="form-control bg-dark border-secondary border-opacity-50 text-white rounded-end-pill shadow-none" placeholder="Search for plants..." autocomplete="off">
+              </div>
+          </form>
+          <!-- Search Dropdown Results -->
+          <div id="search-dropdown" class="position-absolute w-100 bg-dark border border-secondary border-opacity-50 rounded-4 shadow-lg mt-2 d-none overflow-hidden z-3">
+              <!-- JS injected results go here -->
+          </div>
+      </div>
+
       <ul class="navbar-nav align-items-lg-center">
         <li class="nav-item">
           <a class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}" href="{{ route('home') }}">Home</a>
@@ -20,6 +36,16 @@
         </li>
         <li class="nav-item">
           <a class="nav-link" href="{{ route('home') }}#reviews">Reviews</a>
+        </li>
+        
+        <!-- Cart Toggle -->
+        <li class="nav-item ms-lg-3 mt-2 mt-lg-0 d-flex align-items-center">
+            <button class="btn btn-link nav-link position-relative border-0" data-bs-toggle="offcanvas" data-bs-target="#cartDrawer" aria-controls="cartDrawer">
+                <i class="fa-solid fa-cart-shopping fs-5 text-white"></i>
+                <span id="cart-count-badge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning text-dark d-none" style="font-size: 0.65rem;">
+                    0
+                </span>
+            </button>
         </li>
 
         @auth

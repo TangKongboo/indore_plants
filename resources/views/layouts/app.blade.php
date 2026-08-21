@@ -27,9 +27,18 @@
     </main>
 
     @include('partials.footer')
+    
+    @include('partials.cart-drawer')
 
     <!-- Bootstrap Bundle JS -->
     <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
+    <!-- Custom Logic -->
+    <script src="{{ asset('js/cart.js') }}"></script>
+    <script src="{{ asset('js/search.js') }}"></script>
+    <script>
+        // Set CSRF token for Axios/Fetch
+        window.csrfToken = '{{ csrf_token() }}';
+    </script>
     @stack('scripts')
 </body>
 </html>

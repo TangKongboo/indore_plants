@@ -118,6 +118,9 @@
     </div>
 </section>
 
+<!-- Find My Plant Quiz -->
+@include('components.plant-quiz')
+
 <!-- Choice Plants (Product Catalog) -->
 <section id="popular" class="catalog-section">
     <div class="container">
@@ -142,39 +145,41 @@
         <div class="row g-4">
             @forelse ($plants as $plant)
             <div class="col-lg-3 col-md-6 col-12">
-                <div class="plant-card h-100 d-flex flex-column justify-content-between">
-                    <div>
-                        @if($plant->badge)
-                            <span class="plant-badge">{{ $plant->badge }}</span>
-                        @endif
+                <a href="{{ route('plant.show', $plant->slug) }}" class="text-decoration-none text-white">
+                    <div class="plant-card h-100 d-flex flex-column justify-content-between transition-hover">
+                        <div>
+                            @if($plant->badge)
+                                <span class="plant-badge">{{ $plant->badge }}</span>
+                            @endif
 
-                        <div class="plant-img-wrapper">
-                            <img src="{{ $plant->image_url }}" alt="{{ $plant->name }}">
+                            <div class="plant-img-wrapper">
+                                <img src="{{ $plant->image_url }}" alt="{{ $plant->name }}">
+                            </div>
+
+                            <span class="plant-category">{{ $plant->category->name ?? 'Indoor' }}</span>
+                            <h3 class="plant-title text-white">{{ $plant->name }}</h3>
+
+                            <div class="star-rating">
+                                @for ($s = 0; $s < $plant->rating; $s++)
+                                    <i class="fa-solid fa-star"></i>
+                                @endfor
+                                <span class="text-muted ms-1 fs-6">({{ $plant->location }})</span>
+                            </div>
+
+                            <div class="small text-muted mb-3 mt-2">
+                                <div><i class="fa-solid fa-sun text-warning me-1"></i> {{ $plant->light_level }}</div>
+                                <div><i class="fa-solid fa-droplet text-info me-1"></i> {{ $plant->water_frequency }}</div>
+                            </div>
                         </div>
 
-                        <span class="plant-category">{{ $plant->category->name ?? 'Indoor' }}</span>
-                        <h3 class="plant-title">{{ $plant->name }}</h3>
-
-                        <div class="star-rating">
-                            @for ($s = 0; $s < $plant->rating; $s++)
-                                <i class="fa-solid fa-star"></i>
-                            @endfor
-                            <span class="text-muted ms-1 fs-6">({{ $plant->location }})</span>
-                        </div>
-
-                        <div class="small text-muted mb-3">
-                            <div><i class="fa-solid fa-sun text-warning me-1"></i> {{ $plant->light_level }}</div>
-                            <div><i class="fa-solid fa-droplet text-info me-1"></i> {{ $plant->water_frequency }}</div>
+                        <div class="plant-footer">
+                            <span class="plant-price">${{ number_format($plant->price, 2) }}</span>
+                            <button class="btn-add-cart" aria-label="Add to cart" title="Add to cart" onclick="event.preventDefault(); addToCart({{ $plant->id }})">
+                                <i class="fa-solid fa-cart-shopping"></i>
+                            </button>
                         </div>
                     </div>
-
-                    <div class="plant-footer">
-                        <span class="plant-price">${{ number_format($plant->price, 2) }}</span>
-                        <button class="btn-add-cart" aria-label="Add to cart" title="Add to cart">
-                            <i class="fa-solid fa-cart-shopping"></i>
-                        </button>
-                    </div>
-                </div>
+                </a>
             </div>
             @empty
             <div class="col-12 text-center py-5 text-white-50">

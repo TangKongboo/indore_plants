@@ -53,6 +53,14 @@ body .text-muted {
     color: #94a3b8 !important;
 }
 
+/* Utilities */
+.transition-hover {
+    transition: var(--transition-smooth);
+}
+.transition-hover:hover {
+    transform: translateY(-5px);
+}
+
 /* On Light Background Sections */
 .features-section .text-muted,
 .features-section .feature-desc,
