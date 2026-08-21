@@ -146,6 +146,42 @@ body .text-muted {
     background: linear-gradient(135deg, var(--accent-yellow-hover), var(--accent-yellow));
 }
 
+.btn-nav-signin {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(234, 179, 8, 0.4);
+    color: #ffffff !important;
+    font-weight: 600;
+    font-family: "Jost", sans-serif;
+    font-size: 0.95rem;
+    border-radius: 30px;
+    padding: 8px 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: var(--transition-smooth);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+    text-decoration: none;
+}
+
+.btn-nav-signin i {
+    color: var(--accent-yellow);
+    transition: var(--transition-smooth);
+}
+
+.btn-nav-signin:hover {
+    background: rgba(234, 179, 8, 0.18);
+    border-color: var(--accent-yellow);
+    color: var(--accent-yellow) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(234, 179, 8, 0.3);
+}
+
+.btn-nav-signin:hover i {
+    transform: scale(1.15);
+}
+
 /* ===================================
    Hero Section
    =================================== */
@@ -849,6 +885,14 @@ body .text-muted {
     box-shadow: 0 10px 25px rgba(234, 179, 8, 0.5);
     background: linear-gradient(135deg, var(--accent-yellow-hover), var(--accent-yellow));
     color: #000 !important;
+}
+
+.auth-btn-submit i {
+    transition: transform 0.3s ease;
+}
+
+.auth-btn-submit:hover i {
+    transform: translateX(4px);
 }
 
 .auth-helper-text {

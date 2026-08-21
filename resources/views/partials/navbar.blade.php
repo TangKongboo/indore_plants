@@ -61,12 +61,13 @@
             </ul>
           </li>
         @else
-          <li class="nav-item ms-lg-3 mt-3 mt-lg-0 d-flex gap-2">
-            <a class="btn btn-outline-light rounded-pill px-3 py-1 small" href="{{ route('login') }}">
-              <i class="fa-solid fa-user me-1"></i> Sign In
+          <li class="nav-item ms-lg-3 mt-3 mt-lg-0 d-flex align-items-center gap-2">
+            <a class="btn-nav-signin" href="{{ route('login') }}">
+              <i class="fa-solid fa-arrow-right-to-bracket"></i>
+              <span>Sign In</span>
             </a>
             <a class="btn btn-nav-action d-inline-flex align-items-center gap-1 small" href="{{ route('register') }}">
-              Register
+              <i class="fa-solid fa-user-plus me-1"></i> Register
             </a>
           </li>
         @endauth
