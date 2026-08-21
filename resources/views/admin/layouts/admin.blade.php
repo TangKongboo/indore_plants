@@ -193,11 +193,20 @@
                 <div class="dropdown">
                     <button class="btn btn-light rounded-pill px-3 dropdown-toggle d-flex align-items-center gap-2" data-bs-toggle="dropdown">
                         <i class="fa-solid fa-circle-user text-success fs-5"></i>
-                        <span class="fw-semibold">Admin</span>
+                        <span class="fw-semibold">{{ auth()->user()->name ?? 'Admin' }}</span>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0">
-                        <li><a class="dropdown-item" href="{{ route('home') }}"><i class="fa-solid fa-shop me-2"></i> Live Website</a></li>
-                        <li><a class="dropdown-item" href="{{ route('admin.plants.create') }}"><i class="fa-solid fa-plus me-2"></i> Add New Plant</a></li>
+                        <li><a class="dropdown-item" href="{{ route('home') }}" target="_blank"><i class="fa-solid fa-shop me-2 text-success"></i> Live Website</a></li>
+                        <li><a class="dropdown-item" href="{{ route('admin.plants.create') }}"><i class="fa-solid fa-plus me-2 text-primary"></i> Add New Plant</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <form action="{{ route('logout') }}" method="POST">
+                                @csrf
+                                <button type="submit" class="dropdown-item text-danger">
+                                    <i class="fa-solid fa-arrow-right-from-bracket me-2"></i> Sign Out
+                                </button>
+                            </form>
+                        </li>
                     </ul>
                 </div>
             </div>

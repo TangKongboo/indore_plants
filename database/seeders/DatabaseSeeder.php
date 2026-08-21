@@ -19,12 +19,27 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // 1. Admin User
+        // 1. Admin & Demo Customer Users
         User::updateOrCreate(
             ['email' => 'admin@indoreplants.com'],
             [
                 'name' => 'Admin IndorePlants',
                 'password' => Hash::make('admin123'),
+                'role' => 'admin',
+                'phone' => '+855 61 913 865',
+                'address' => 'Phnom Penh, Cambodia',
+                'email_verified_at' => now(),
+            ]
+        );
+
+        User::updateOrCreate(
+            ['email' => 'customer@indoreplants.com'],
+            [
+                'name' => 'Sokha Meng',
+                'password' => Hash::make('customer123'),
+                'role' => 'customer',
+                'phone' => '+855 12 345 678',
+                'address' => '#45, St 271, Tuol Kouk, Phnom Penh',
                 'email_verified_at' => now(),
             ]
         );
@@ -206,7 +221,7 @@ class DatabaseSeeder extends Seeder
         $order1 = Order::create([
             'order_number' => 'ORD-' . strtoupper(Str::random(6)),
             'customer_name' => 'Sokha Meng',
-            'customer_email' => 'sokha@gmail.com',
+            'customer_email' => 'customer@indoreplants.com',
             'customer_phone' => '+855 12 345 678',
             'customer_address' => '#45, St 271, Tuol Kouk, Phnom Penh',
             'total_amount' => 39.00,

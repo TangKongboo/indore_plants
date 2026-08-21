@@ -2,16 +2,42 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Customer\CustomerOrderController;
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\PlantController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\OrderController;
 
-// Storefront Route
+// -------------------------------------------------------------
+// 🌿 Public Storefront Route
+// -------------------------------------------------------------
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-// Admin Dashboard & Management Routes
-Route::prefix('admin')->name('admin.')->group(function () {
+// -------------------------------------------------------------
+// 🔐 Authentication Routes (Guest Only)
+// -------------------------------------------------------------
+Route::middleware('guest')->group(function () {
+    Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+    Route::post('/login', [AuthController::class, 'login']);
+    Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
+    Route::post('/register', [AuthController::class, 'register']);
+});
+
+// Logout (Authenticated Only)
+Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');
+
+// -------------------------------------------------------------
+// 👤 Customer Account Routes (Protected by Auth)
+// -------------------------------------------------------------
+Route::middleware('auth')->prefix('account')->name('account.')->group(function () {
+    Route::get('/orders', [CustomerOrderController::class, 'index'])->name('orders');
+});
+
+// -------------------------------------------------------------
+// 🛡️ Admin Management Routes (Protected by Auth & Admin Middleware)
+// -------------------------------------------------------------
+Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/', [AdminDashboardController::class, 'index'])->name('dashboard');
     Route::resource('plants', PlantController::class);
     Route::resource('categories', CategoryController::class)->except(['create', 'show', 'edit']);
