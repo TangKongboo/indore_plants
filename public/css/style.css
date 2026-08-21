@@ -545,9 +545,19 @@ body .text-muted {
 }
 
 .plant-img-wrapper img {
-    max-height: 100%;
-    object-fit: contain;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
     transition: var(--transition-smooth);
+}
+
+.catalog-img-wrapper {
+    height: 150px;
+}
+@media (min-width: 768px) {
+    .catalog-img-wrapper {
+        height: 220px;
+    }
 }
 
 .plant-card:hover .plant-img-wrapper img {
