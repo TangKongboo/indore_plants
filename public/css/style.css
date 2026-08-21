@@ -39,8 +39,9 @@ body {
 }
 
 .text-logo {
-    font-family: "Lobster", cursive;
-    font-size: 2.2rem;
+    font-family: "Outfit", "Lobster", sans-serif;
+    font-weight: 800;
+    font-size: 1.9rem;
     color: var(--text-white);
     text-decoration: none;
     transition: var(--transition-smooth);
@@ -51,9 +52,13 @@ body {
     transform: scale(1.02);
 }
 
-.text-logo .logo-icon {
-    color: var(--accent-yellow);
-    margin-right: 6px;
+.logo-badge {
+    filter: drop-shadow(0 2px 8px rgba(234, 179, 8, 0.35));
+    transition: var(--transition-smooth);
+}
+
+.text-logo:hover .logo-badge {
+    transform: rotate(10deg) scale(1.05);
 }
 
 .nav-link {

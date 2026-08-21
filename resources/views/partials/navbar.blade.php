@@ -1,7 +1,8 @@
 <nav class="navbar navbar-expand-lg sticky-top navbar-wrapper py-3">
   <div class="container">
-    <a class="navbar-brand text-logo d-flex align-items-center" href="{{ route('home') }}">
-      <i class="fa-solid fa-seedling logo-icon"></i> IndorePlants
+    <a class="navbar-brand text-logo d-flex align-items-center gap-2" href="{{ route('home') }}">
+      <img src="{{ asset('images/favicon.svg') }}" alt="IndorePlants Logo" width="38" height="38" class="logo-badge">
+      <span>Indore<span class="text-normal">Plants</span></span>
     </a>
     <button class="navbar-toggler border-0 text-white shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
       <i class="fa-solid fa-bars fs-3"></i>

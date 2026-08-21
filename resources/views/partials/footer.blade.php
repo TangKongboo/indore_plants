@@ -4,8 +4,10 @@
       <!-- Brand Info -->
       <div class="col-lg-4 col-md-6">
         <div class="pe-lg-4">
-          <i class="fa-solid fa-seedling seeding-icon"></i><br>
-          <span class="footer-brand">IndorePlants</span>
+          <div class="d-flex align-items-center gap-2 mb-3">
+            <img src="{{ asset('images/favicon.svg') }}" alt="IndorePlants" width="48" height="48" class="logo-badge">
+            <span class="footer-brand mb-0">Indore<span class="text-success">Plants</span></span>
+          </div>
           <p class="footer-description">Bringing vibrant green life into your home and workspace with curated plants, sustainable pots, and expert botanical care services.</p>
           <div class="d-flex gap-3">
             <a href="#" class="icon-color" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
