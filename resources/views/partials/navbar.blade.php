@@ -1,5 +1,6 @@
-<nav class="navbar navbar-expand-lg sticky-top navbar-wrapper py-3">
-  <div class="container">
+<div class="fixed-top pt-lg-3 px-lg-4 z-3">
+<nav class="navbar navbar-expand-lg navbar-wrapper">
+  <div class="container-fluid px-3">
     <a class="navbar-brand text-logo d-flex align-items-center gap-2" href="{{ route('home') }}">
       <img src="{{ asset('favicon.svg') }}" alt="IndorePlants Logo" width="38" height="38" class="logo-badge">
       <span>Indore<span class="text-normal">Plants</span></span>
@@ -29,10 +30,10 @@
           <a class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}" href="{{ route('home') }}">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{{ route('home') }}#about">About Us</a>
+          <a class="nav-link {{ request()->routeIs('shop') ? 'active' : '' }}" href="{{ route('shop') }}">Shop</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{{ route('home') }}#popular">Popular Plants</a>
+          <a class="nav-link" href="{{ route('home') }}#about">About Us</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="{{ route('home') }}#reviews">Reviews</a>
@@ -101,3 +102,4 @@
     </div>
   </div>
 </nav>
+</div>
