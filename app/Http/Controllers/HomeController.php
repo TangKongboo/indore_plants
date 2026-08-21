@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
+use App\Models\Plant;
+use App\Models\Review;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
     /**
-     * Display the application home page.
+     * Display the application home page with live database records.
      */
-    public function index()
+    public function index(Request $request)
     {
         $features = [
             [
@@ -34,76 +37,20 @@ class HomeController extends Controller
             ],
         ];
 
-        $plants = [
-            [
-                'id' => 1,
-                'name' => 'Boston Fern',
-                'category' => 'Air Purifier',
-                'location' => 'Cambodia',
-                'price' => 15,
-                'rating' => 5,
-                'badge' => 'Best Seller',
-                'image' => asset('images/cart-1.png')
-            ],
-            [
-                'id' => 2,
-                'name' => 'Monstera Deliciosa',
-                'category' => 'Tropical Indoor',
-                'location' => 'Phnom Penh',
-                'price' => 24,
-                'rating' => 5,
-                'badge' => 'Popular',
-                'image' => asset('images/cart-1.png')
-            ],
-            [
-                'id' => 3,
-                'name' => 'Snake Plant',
-                'category' => 'Low Light',
-                'location' => 'Siem Reap',
-                'price' => 18,
-                'rating' => 4,
-                'badge' => 'Easy Care',
-                'image' => asset('images/cart-1.png')
-            ],
-            [
-                'id' => 4,
-                'name' => 'Peace Lily',
-                'category' => 'Flowering Indoor',
-                'location' => 'Battambang',
-                'price' => 20,
-                'rating' => 5,
-                'badge' => 'New Arrival',
-                'image' => asset('images/cart-1.png')
-            ],
-        ];
+        $categories = Category::where('is_active', true)->withCount('plants')->get();
 
-        $reviews = [
-            [
-                'name' => 'Kongboo Tang',
-                'role' => 'Verified Buyer',
-                'rating' => 5,
-                'comment' => 'The plants arrived perfectly packaged and super healthy! Adding green life into my home office has completely boosted my focus.'
-            ],
-            [
-                'name' => 'Sophea Kim',
-                'role' => 'Interior Designer',
-                'rating' => 5,
-                'comment' => 'IndorePlants offers incredible customer service and top quality indoor greenery. Highly recommended for modern indoor styling.'
-            ],
-            [
-                'name' => 'Vannak Chan',
-                'role' => 'Plant Enthusiast',
-                'rating' => 5,
-                'comment' => 'Fast delivery and the care instructions included were super helpful. My Boston Fern is thriving beautifully!'
-            ],
-            [
-                'name' => 'Dara Rath',
-                'role' => 'Home Decorator',
-                'rating' => 5,
-                'comment' => 'Great prices, healthy plants, and fast response from their team. Will definitely order more plants for my apartment.'
-            ],
-        ];
+        $plantQuery = Plant::with('category');
 
-        return view('home', compact('features', 'plants', 'reviews'));
+        if ($request->filled('category')) {
+            $categorySlug = $request->input('category');
+            $plantQuery->whereHas('category', function ($q) use ($categorySlug) {
+                $q->where('slug', $categorySlug);
+            });
+        }
+
+        $plants = $plantQuery->latest()->get();
+        $reviews = Review::where('is_approved', true)->latest()->take(4)->get();
+
+        return view('home', compact('features', 'categories', 'plants', 'reviews'));
     }
 }

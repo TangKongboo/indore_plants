@@ -21,9 +21,12 @@
         <li class="nav-item">
           <a class="nav-link" href="#reviews">Reviews</a>
         </li>
-        <li class="nav-item ms-lg-3 mt-3 mt-lg-0">
+        <li class="nav-item ms-lg-3 mt-3 mt-lg-0 d-flex gap-2">
           <a class="btn btn-nav-action d-inline-flex align-items-center gap-2" href="#popular">
             <i class="fa-solid fa-bag-shopping"></i> Shop Now
+          </a>
+          <a class="btn btn-outline-light rounded-pill px-3 d-inline-flex align-items-center gap-1 small" href="{{ route('admin.dashboard') }}">
+            <i class="fa-solid fa-gauge text-warning"></i> Admin
           </a>
         </li>
       </ul>

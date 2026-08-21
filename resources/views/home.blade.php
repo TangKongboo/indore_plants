@@ -77,17 +77,17 @@
                     <span class="font-card-1">Make your </span>
                     <span class="text-normal font-card-1">organic</span><br>
                     <span class="font-card-1">garden at home</span>
-                    <p class="font-lobster mt-4 fs-6 lh-lg">
+                    <p class="font-lobster mt-4 fs-6 lh-lg text-muted">
                         We believe that living with plants improves mental wellness, purifies air quality, and creates a relaxing home atmosphere. Our team curates the healthiest indoor plants adapted for tropical indoor growth.
                     </p>
                     <div class="d-flex gap-4 mt-4">
                         <div>
                             <h3 class="fw-bold text-normal mb-0">500+</h3>
-                            <span class=" small">Plant Varieties</span>
+                            <span class="small text-muted">Plant Varieties</span>
                         </div>
                         <div class="border-start ps-4">
                             <h3 class="fw-bold text-normal mb-0">99%</h3>
-                            <span class=" small">Happy Customers</span>
+                            <span class="small text-muted">Happy Customers</span>
                         </div>
                     </div>
                 </div>
@@ -103,7 +103,7 @@
                     <span class="font-card-1">Come with us & </span><br>
                     <span class="text-normal font-card-1">grow up </span>
                     <span class="font-card-1">your green space</span>
-                    <p class="font-lobster mt-4  fs-6 lh-lg">
+                    <p class="font-lobster mt-4 fs-6 lh-lg text-muted">
                         Whether you are a seasoned plant parent or just beginning your green journey, we provide comprehensive plant care guidance, eco-friendly soil mixes, and continuous support.
                     </p>
                     <a href="#popular" class="btn btn-hero-primary mt-3">
@@ -121,38 +121,68 @@
 <!-- Choice Plants (Product Catalog) -->
 <section id="popular" class="catalog-section">
     <div class="container">
-        <div class="text-center mb-5">
+        <div class="text-center mb-4">
             <h2 class="font-lobster-title">Your Choice Plants</h2>
             <p class="p-text">Hand-picked best-selling indoor plants for your living space</p>
         </div>
 
-        <div class="row g-4">
-            @foreach ($plants as $plant)
-            <div class="col-lg-3 col-md-6 col-12">
-                <div class="plant-card">
-                    <span class="plant-badge">{{ $plant['badge'] }}</span>
-                    <div class="plant-img-wrapper">
-                        <img src="{{ $plant['image'] }}" alt="{{ $plant['name'] }}">
-                    </div>
-                    <span class="plant-category">{{ $plant['category'] }}</span>
-                    <h3 class="plant-title">{{ $plant['name'] }}</h3>
+        <!-- Dynamic Category Filter Tabs -->
+        <div class="d-flex flex-wrap justify-content-center gap-2 mb-5">
+            <a href="{{ route('home') }}#popular" class="btn {{ !request('category') ? 'btn-warning text-dark fw-bold' : 'btn-outline-light' }} rounded-pill px-4 py-2">
+                All Plants ({{ \App\Models\Plant::count() }})
+            </a>
+            @foreach ($categories as $cat)
+            <a href="{{ route('home', ['category' => $cat->slug]) }}#popular" class="btn {{ request('category') == $cat->slug ? 'btn-warning text-dark fw-bold' : 'btn-outline-light' }} rounded-pill px-4 py-2">
+                <i class="fa-solid {{ $cat->icon }} me-1"></i> {{ $cat->name }} ({{ $cat->plants_count }})
+            </a>
+            @endforeach
+        </div>
 
-                    <div class="star-rating">
-                        @for ($s = 0; $s < $plant['rating']; $s++)
-                            <i class="fa-solid fa-star"></i>
+        <!-- Plants Grid -->
+        <div class="row g-4">
+            @forelse ($plants as $plant)
+            <div class="col-lg-3 col-md-6 col-12">
+                <div class="plant-card h-100 d-flex flex-column justify-content-between">
+                    <div>
+                        @if($plant->badge)
+                            <span class="plant-badge">{{ $plant->badge }}</span>
+                        @endif
+
+                        <div class="plant-img-wrapper">
+                            <img src="{{ $plant->image_url }}" alt="{{ $plant->name }}">
+                        </div>
+
+                        <span class="plant-category">{{ $plant->category->name ?? 'Indoor' }}</span>
+                        <h3 class="plant-title">{{ $plant->name }}</h3>
+
+                        <div class="star-rating">
+                            @for ($s = 0; $s < $plant->rating; $s++)
+                                <i class="fa-solid fa-star"></i>
                             @endfor
-                            <span class=" ms-1 fs-6">({{ $plant['location'] }})</span>
+                            <span class="text-muted ms-1 fs-6">({{ $plant->location }})</span>
+                        </div>
+
+                        <div class="small text-muted mb-3">
+                            <div><i class="fa-solid fa-sun text-warning me-1"></i> {{ $plant->light_level }}</div>
+                            <div><i class="fa-solid fa-droplet text-info me-1"></i> {{ $plant->water_frequency }}</div>
+                        </div>
                     </div>
 
                     <div class="plant-footer">
-                        <span class="plant-price">${{ $plant['price'] }}</span>
-                        <button class="btn-add-cart" aria-label="Add to cart">
+                        <span class="plant-price">${{ number_format($plant->price, 2) }}</span>
+                        <button class="btn-add-cart" aria-label="Add to cart" title="Add to cart">
                             <i class="fa-solid fa-cart-shopping"></i>
                         </button>
                     </div>
                 </div>
             </div>
-            @endforeach
+            @empty
+            <div class="col-12 text-center py-5 text-white-50">
+                <i class="fa-solid fa-seedling fs-1 mb-3 text-warning"></i>
+                <h4>No plants found in this category.</h4>
+                <a href="{{ route('home') }}#popular" class="btn btn-warning rounded-pill px-4 mt-2">View All Plants</a>
+            </div>
+            @endforelse
         </div>
     </div>
 </section>
@@ -172,15 +202,15 @@
                 <div class="review-card">
                     <div>
                         <i class="fa-solid fa-quote-left quote-icon"></i>
-                        <p class="review-comment">"{{ $review['comment'] }}"</p>
+                        <p class="review-comment">"{{ $review->comment }}"</p>
                     </div>
                     <div class="reviewer-profile">
                         <div class="reviewer-avatar">
                             <i class="fa-solid fa-user"></i>
                         </div>
                         <div>
-                            <h4 class="reviewer-name">{{ $review['name'] }}</h4>
-                            <span class="reviewer-role">{{ $review['role'] }}</span>
+                            <h4 class="reviewer-name">{{ $review->reviewer_name }}</h4>
+                            <span class="reviewer-role">{{ $review->reviewer_role }}</span>
                         </div>
                     </div>
                 </div>
