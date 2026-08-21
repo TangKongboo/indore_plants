@@ -28,6 +28,41 @@ body {
 }
 
 /* ===================================
+   Enhanced Typography & Text Contrast
+   =================================== */
+.text-muted,
+body .text-muted {
+    color: #94a3b8 !important;
+}
+
+.text-soft {
+    color: #cbd5e1 !important;
+}
+
+.text-gold {
+    color: var(--accent-yellow) !important;
+}
+
+.text-emerald {
+    color: #4ade80 !important;
+}
+
+.plant-card .text-muted,
+.about-card .text-muted,
+.review-card .text-muted {
+    color: #94a3b8 !important;
+}
+
+/* On Light Background Sections */
+.features-section .text-muted,
+.features-section .feature-desc,
+.bg-yellow .text-muted,
+.bg-yellow .footer-description,
+.bg-yellow .footer-list-item {
+    color: #64748b !important;
+}
+
+/* ===================================
    Navbar & Navigation
    =================================== */
 .navbar-wrapper {
