@@ -35,9 +35,40 @@
     <!-- Custom Logic -->
     <script src="{{ asset('js/cart.js') }}"></script>
     <script src="{{ asset('js/search.js') }}"></script>
+    <script src="{{ asset('js/theme-toggle.js') }}"></script>
     <script>
         // Set CSRF token for Axios/Fetch
         window.csrfToken = '{{ csrf_token() }}';
+
+        function toggleWishlist(plantId, btn) {
+            @guest
+                window.location.href = "{{ route('login') }}";
+                return;
+            @endguest
+
+            fetch('{{ route('wishlist.toggle') }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': window.csrfToken
+                },
+                body: JSON.stringify({ plant_id: plantId })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if(data.status === 'added') {
+                    if(btn) btn.innerHTML = '<i class="fa-solid fa-heart"></i>';
+                } else if(data.status === 'removed') {
+                    if(btn) {
+                        btn.innerHTML = '<i class="fa-regular fa-heart"></i>';
+                        // if we are on the wishlist page, remove the card
+                        let itemCard = document.getElementById('wishlist-item-' + plantId);
+                        if(itemCard) itemCard.remove();
+                    }
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
     </script>
     @stack('scripts')
 </body>

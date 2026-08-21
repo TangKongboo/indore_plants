@@ -47,11 +47,18 @@ Route::middleware('guest')->group(function () {
 // Logout (Authenticated Only)
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');
 
+// Authenticated Storefront Actions
+Route::middleware('auth')->group(function () {
+    Route::post('/plants/{plant}/reviews', [\App\Http\Controllers\Storefront\ReviewController::class, 'store'])->name('reviews.store');
+    Route::post('/wishlist/toggle', [\App\Http\Controllers\Storefront\WishlistController::class, 'toggle'])->name('wishlist.toggle');
+});
+
 // -------------------------------------------------------------
 // 👤 Customer Account Routes (Protected by Auth)
 // -------------------------------------------------------------
 Route::middleware('auth')->prefix('account')->name('account.')->group(function () {
     Route::get('/orders', [CustomerOrderController::class, 'index'])->name('orders');
+    Route::get('/wishlist', [\App\Http\Controllers\Storefront\WishlistController::class, 'index'])->name('wishlist');
 });
 
 // -------------------------------------------------------------

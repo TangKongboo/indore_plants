@@ -65,6 +65,65 @@
                         </div>
                     </div>
 
+                    <!-- Visual Order Tracker -->
+                    @php
+                        $progressMap = [
+                            'Pending' => 1,
+                            'Processing' => 2,
+                            'Shipped' => 3,
+                            'Delivered' => 4,
+                            'Cancelled' => -1
+                        ];
+                        $currentStep = $progressMap[$order->order_status] ?? 1;
+                    @endphp
+
+                    @if($currentStep > 0)
+                        <div class="position-relative m-4 d-none d-md-block">
+                            <!-- Background Track -->
+                            <div class="progress" style="height: 4px; background-color: rgba(255,255,255,0.1);">
+                                <!-- Active Progress -->
+                                <div class="progress-bar bg-success" role="progressbar" style="width: {{ ($currentStep - 1) * 33.33 }}%; transition: width 0.5s ease;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            
+                            <!-- Steps -->
+                            <div class="d-flex justify-content-between position-absolute top-50 start-0 w-100 translate-middle-y">
+                                <!-- Step 1 -->
+                                <div class="text-center" style="width: 2rem;">
+                                    <div class="rounded-circle d-flex align-items-center justify-content-center text-white {{ $currentStep >= 1 ? 'bg-success shadow' : 'bg-dark border border-secondary text-muted' }}" style="width: 32px; height: 32px; margin: 0 auto;">
+                                        <i class="fa-solid fa-clipboard-list small"></i>
+                                    </div>
+                                    <div class="small fw-bold mt-2 {{ $currentStep >= 1 ? 'text-success' : 'text-muted' }}" style="position: absolute; left: 0; transform: translateX(-25%); width: 80px;">Pending</div>
+                                </div>
+                                
+                                <!-- Step 2 -->
+                                <div class="text-center" style="width: 2rem;">
+                                    <div class="rounded-circle d-flex align-items-center justify-content-center text-white {{ $currentStep >= 2 ? 'bg-success shadow' : 'bg-dark border border-secondary text-muted' }}" style="width: 32px; height: 32px; margin: 0 auto;">
+                                        <i class="fa-solid fa-box-open small"></i>
+                                    </div>
+                                    <div class="small fw-bold mt-2 {{ $currentStep >= 2 ? 'text-success' : 'text-muted' }}" style="position: absolute; left: 33.33%; transform: translateX(-50%); width: 80px;">Processing</div>
+                                </div>
+
+                                <!-- Step 3 -->
+                                <div class="text-center" style="width: 2rem;">
+                                    <div class="rounded-circle d-flex align-items-center justify-content-center text-white {{ $currentStep >= 3 ? 'bg-success shadow' : 'bg-dark border border-secondary text-muted' }}" style="width: 32px; height: 32px; margin: 0 auto;">
+                                        <i class="fa-solid fa-truck-fast small"></i>
+                                    </div>
+                                    <div class="small fw-bold mt-2 {{ $currentStep >= 3 ? 'text-success' : 'text-muted' }}" style="position: absolute; left: 66.66%; transform: translateX(-50%); width: 80px;">Shipped</div>
+                                </div>
+
+                                <!-- Step 4 -->
+                                <div class="text-center" style="width: 2rem;">
+                                    <div class="rounded-circle d-flex align-items-center justify-content-center text-white {{ $currentStep >= 4 ? 'bg-success shadow' : 'bg-dark border border-secondary text-muted' }}" style="width: 32px; height: 32px; margin: 0 auto;">
+                                        <i class="fa-solid fa-house-circle-check small"></i>
+                                    </div>
+                                    <div class="small fw-bold mt-2 {{ $currentStep >= 4 ? 'text-success' : 'text-muted' }}" style="position: absolute; right: 0; transform: translateX(25%); width: 80px;">Delivered</div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Spacer for mobile/desktop layout -->
+                        <div class="mb-5 d-none d-md-block"></div>
+                    @endif
+
                     <!-- Items Grid -->
                     <div class="row g-3">
                         @foreach($order->items as $item)

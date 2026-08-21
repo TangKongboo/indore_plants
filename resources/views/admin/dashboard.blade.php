@@ -83,6 +83,24 @@
     </div>
 </div>
 
+<div class="row g-4 mb-4">
+    <!-- Revenue Chart -->
+    <div class="col-lg-8">
+        <div class="card card-custom p-4 h-100">
+            <h5 class="fw-bold mb-4">Revenue (Last 7 Days)</h5>
+            <canvas id="revenueChart" style="max-height: 300px;"></canvas>
+        </div>
+    </div>
+    
+    <!-- Category Chart -->
+    <div class="col-lg-4">
+        <div class="card card-custom p-4 h-100">
+            <h5 class="fw-bold mb-4">Plants by Category</h5>
+            <canvas id="categoryChart" style="max-height: 300px;"></canvas>
+        </div>
+    </div>
+</div>
+
 <!-- Quick Actions & Top Plants -->
 <div class="row g-4 mb-4">
     <!-- Quick Actions -->
@@ -215,4 +233,56 @@
         </table>
     </div>
 </div>
+
+@push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Revenue Line Chart
+    const ctxRevenue = document.getElementById('revenueChart').getContext('2d');
+    new Chart(ctxRevenue, {
+        type: 'line',
+        data: {
+            labels: {!! json_encode($revenueLabels) !!},
+            datasets: [{
+                label: 'Revenue (USD)',
+                data: {!! json_encode($revenueData) !!},
+                borderColor: '#10b981',
+                backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                borderWidth: 3,
+                tension: 0.4,
+                fill: true
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: { y: { beginAtZero: true } }
+        }
+    });
+
+    // Categories Doughnut Chart
+    const ctxCat = document.getElementById('categoryChart').getContext('2d');
+    new Chart(ctxCat, {
+        type: 'doughnut',
+        data: {
+            labels: {!! json_encode($catLabels) !!},
+            datasets: [{
+                data: {!! json_encode($catData) !!},
+                backgroundColor: ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6'],
+                borderWidth: 0
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { position: 'bottom' }
+            }
+        }
+    });
+});
+</script>
+@endpush
 @endsection

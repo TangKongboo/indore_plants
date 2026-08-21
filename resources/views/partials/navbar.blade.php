@@ -39,8 +39,24 @@
           <a class="nav-link" href="{{ route('home') }}#reviews">Reviews</a>
         </li>
         
+        <!-- Theme Toggle -->
+        <li class="nav-item ms-lg-2 mt-2 mt-lg-0 d-flex align-items-center">
+            <a href="#" id="theme-toggle" class="btn btn-link nav-link border-0" title="Toggle Theme">
+                <i id="theme-icon" class="fa-solid fa-sun fs-5 text-warning"></i>
+            </a>
+        </li>
+        
+        <!-- Wishlist -->
+        @auth
+        <li class="nav-item ms-lg-2 mt-2 mt-lg-0 d-flex align-items-center">
+            <a href="{{ route('account.wishlist') }}" class="btn btn-link nav-link border-0" title="My Wishlist">
+                <i class="fa-regular fa-heart fs-5 text-danger"></i>
+            </a>
+        </li>
+        @endauth
+        
         <!-- Cart Toggle -->
-        <li class="nav-item ms-lg-3 mt-2 mt-lg-0 d-flex align-items-center">
+        <li class="nav-item ms-lg-1 mt-2 mt-lg-0 d-flex align-items-center">
             <button class="btn btn-link nav-link position-relative border-0" data-bs-toggle="offcanvas" data-bs-target="#cartDrawer" aria-controls="cartDrawer">
                 <i class="fa-solid fa-cart-shopping fs-5 text-white"></i>
                 <span id="cart-count-badge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning text-dark d-none" style="font-size: 0.65rem;">

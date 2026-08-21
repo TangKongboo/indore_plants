@@ -10,7 +10,9 @@ class PlantStoreController extends Controller
 {
     public function show($slug)
     {
-        $plant = Plant::where('slug', $slug)->firstOrFail();
+        $plant = Plant::with(['reviews' => function($q) {
+            $q->where('is_approved', true)->latest();
+        }])->where('slug', $slug)->firstOrFail();
         
         // Get 4 related plants from the same category (excluding current)
         $relatedPlants = Plant::where('category_id', $plant->category_id)

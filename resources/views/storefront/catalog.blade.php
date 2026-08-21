@@ -83,7 +83,14 @@
                                     <span class="plant-badge">{{ $plant->badge }}</span>
                                 @endif
 
-                                <div class="plant-img-wrapper" style="height: 220px;">
+                                <div class="plant-img-wrapper position-relative" style="height: 220px;">
+                                    <button class="btn btn-sm btn-dark bg-opacity-75 position-absolute top-0 end-0 m-2 rounded-circle z-3 shadow text-danger border-0 transition-hover" onclick="event.preventDefault(); toggleWishlist({{ $plant->id }}, this)" style="width: 32px; height: 32px; padding: 0;">
+                                        @if(auth()->check() && auth()->user()->wishlists()->where('plant_id', $plant->id)->exists())
+                                            <i class="fa-solid fa-heart"></i>
+                                        @else
+                                            <i class="fa-regular fa-heart"></i>
+                                        @endif
+                                    </button>
                                     <img src="{{ $plant->image_url }}" alt="{{ $plant->name }}">
                                 </div>
 

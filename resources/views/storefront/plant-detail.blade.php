@@ -109,6 +109,82 @@
             @endif
         </div>
     </div>
+    <!-- Customer Reviews -->
+    <div class="mt-5 pt-5 border-top border-secondary border-opacity-25">
+        <div class="row">
+            <div class="col-lg-8">
+                <h3 class="font-lobster-title fs-2 mb-4">Customer Reviews</h3>
+                
+                @if(session('success'))
+                    <div class="alert alert-success bg-success bg-opacity-10 border-success text-success rounded-3 mb-4">
+                        <i class="fa-solid fa-check-circle me-2"></i>{{ session('success') }}
+                    </div>
+                @endif
+                
+                @if($plant->reviews->count() > 0)
+                    <div class="d-flex flex-column gap-4 mb-5">
+                        @foreach($plant->reviews as $review)
+                        <div class="review-card p-4 rounded-4 border border-secondary border-opacity-25" style="background: rgba(255,255,255,0.02);">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <div>
+                                    <h6 class="text-white fw-bold mb-1">{{ $review->reviewer_name }}</h6>
+                                    <span class="badge bg-secondary bg-opacity-25 text-soft small">{{ $review->reviewer_role }}</span>
+                                </div>
+                                <div class="text-warning small">
+                                    @for($i=1; $i<=5; $i++)
+                                        @if($i <= $review->rating)
+                                            <i class="fa-solid fa-star"></i>
+                                        @else
+                                            <i class="fa-regular fa-star"></i>
+                                        @endif
+                                    @endfor
+                                </div>
+                            </div>
+                            <p class="text-muted small mb-1">{{ $review->comment }}</p>
+                            <div class="text-muted" style="font-size: 0.7rem;">{{ $review->created_at->diffForHumans() }}</div>
+                        </div>
+                        @endforeach
+                    </div>
+                @else
+                    <div class="text-muted mb-5">
+                        <i class="fa-regular fa-comment-dots me-2"></i> No reviews yet. Be the first to share your thoughts!
+                    </div>
+                @endif
+            </div>
+
+            <!-- Write a Review Form -->
+            <div class="col-lg-4">
+                <div class="plant-card p-4 rounded-4 border sticky-top" style="top: 100px;">
+                    <h5 class="text-white fw-bold mb-3">Write a Review</h5>
+                    @auth
+                        <form action="{{ route('reviews.store', $plant->id) }}" method="POST">
+                            @csrf
+                            <div class="mb-3">
+                                <label class="form-label text-soft small fw-semibold">Rating</label>
+                                <select name="rating" class="form-select bg-dark text-white border-secondary" required>
+                                    <option value="5">⭐⭐⭐⭐⭐ (5/5) Excellent</option>
+                                    <option value="4">⭐⭐⭐⭐ (4/5) Very Good</option>
+                                    <option value="3">⭐⭐⭐ (3/5) Average</option>
+                                    <option value="2">⭐⭐ (2/5) Below Average</option>
+                                    <option value="1">⭐ (1/5) Poor</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label text-soft small fw-semibold">Your Thoughts</label>
+                                <textarea name="comment" class="form-control bg-dark border-secondary text-white" rows="4" placeholder="How is your plant doing?" required></textarea>
+                            </div>
+                            <button type="submit" class="auth-btn-submit w-100 py-2">Submit Review</button>
+                        </form>
+                    @else
+                        <div class="text-center py-4">
+                            <p class="text-muted small mb-3">You must be logged in to leave a review.</p>
+                            <a href="{{ route('login') }}" class="btn btn-outline-warning w-100">Sign In</a>
+                        </div>
+                    @endauth
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Related Plants -->
     @if($relatedPlants->count() > 0)

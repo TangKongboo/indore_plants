@@ -22,6 +22,22 @@ class AdminDashboardController extends Controller
         $recentOrders = Order::with('items')->latest()->take(5)->get();
         $topPlants = Plant::with('category')->orderBy('stock', 'desc')->take(5)->get();
 
+        // Chart Data: Revenue Last 7 Days
+        $revenueData = [];
+        $revenueLabels = [];
+        for ($i = 6; $i >= 0; $i--) {
+            $date = \Carbon\Carbon::now()->subDays($i)->format('Y-m-d');
+            $revenueLabels[] = \Carbon\Carbon::now()->subDays($i)->format('M d');
+            $revenueData[] = Order::where('payment_status', 'Paid')
+                ->whereDate('created_at', $date)
+                ->sum('total_amount');
+        }
+
+        // Chart Data: Plants by Category
+        $categoriesChart = Category::withCount('plants')->get();
+        $catLabels = $categoriesChart->pluck('name')->toArray();
+        $catData = $categoriesChart->pluck('plants_count')->toArray();
+
         return view('admin.dashboard', compact(
             'totalPlants',
             'totalCategories',
@@ -29,7 +45,11 @@ class AdminDashboardController extends Controller
             'totalRevenue',
             'pendingOrdersCount',
             'recentOrders',
-            'topPlants'
+            'topPlants',
+            'revenueLabels',
+            'revenueData',
+            'catLabels',
+            'catData'
         ));
     }
 }
